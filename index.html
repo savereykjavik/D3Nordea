@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html>
+<head>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script>
+
+    var citymap = {};
+
+		citymap['new york'] = {
+		  center: new google.maps.LatLng(40.714352, -74.005973),
+		  population: 3857799
+		};
+		citymap['berlin'] = {
+		  center: new google.maps.LatLng(52, 13),
+		  population: 3857799
+		};
+		citymap['madrid'] = {
+		  center: new google.maps.LatLng(40, 3),
+		  population: 3857799
+		};
+		citymap['paris'] = {
+		  center: new google.maps.LatLng(48, 2),
+		  population: 3857799
+		};
+		citymap['san fransisco'] = {
+		  center: new google.maps.LatLng(49.25, -123.1),
+		  population: 3857799
+		};		
+		citymap['hong kong'] = {
+		  center: new google.maps.LatLng(22, 114),
+		  population: 3857799
+		};
+		citymap['manila'] = {
+		  center: new google.maps.LatLng(14, 120),
+		  population: 3857799
+		};
+		citymap['melbourne'] = {
+		  center: new google.maps.LatLng(-37, 145),
+		  population: 3857799
+		};
+		citymap['djibouti'] = {
+		  center: new google.maps.LatLng(11, 43),
+		  population: 3857799
+		};
+		citymap['belgrad'] = {
+		  center: new google.maps.LatLng(44, 20),
+		  population: 3857799
+		};
+
+var cityCircle;
+      function initialize() {
+      	// var styles = [{"featureType":"administrative","stylers":[{"visibility":"off"}]},{"featureType":"poi","stylers":[{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"simplified"}]},{"featureType":"water","stylers":[{"visibility":"simplified"}]},{"featureType":"transit","stylers":[{"visibility":"simplified"}]},{"featureType":"landscape","stylers":[{"visibility":"simplified"}]},{"featureType":"road.highway","stylers":[{"visibility":"off"}]},{"featureType":"road.local","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"water","stylers":[{"color":"#84afa3"},{"lightness":52}]},{"stylers":[{"saturation":-17},{"gamma":0.36}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#3f518c"}]}]
+      	var styles = [{"featureType":"poi","elementType":"all","stylers":[{"hue":"#000000"},{"saturation":-100},{"lightness":-100},{"visibility":"off"}]},{"featureType":"poi","elementType":"all","stylers":[{"hue":"#000000"},{"saturation":-100},{"lightness":-100},{"visibility":"off"}]},{"featureType":"administrative","elementType":"all","stylers":[{"hue":"#000000"},{"saturation":0},{"lightness":-100},{"visibility":"off"}]},{"featureType":"road","elementType":"labels","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"off"}]},{"featureType":"water","elementType":"labels","stylers":[{"hue":"#000000"},{"saturation":-100},{"lightness":-100},{"visibility":"off"}]},{"featureType":"road.local","elementType":"all","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"on"}]},{"featureType":"water","elementType":"geometry","stylers":[{"hue":"#ffffff"},{"saturation":-100},{"lightness":100},{"visibility":"on"}]},{"featureType":"transit","elementType":"labels","stylers":[{"hue":"#000000"},{"saturation":0},{"lightness":-100},{"visibility":"off"}]},{"featureType":"landscape","elementType":"labels","stylers":[{"hue":"#000000"},{"saturation":-100},{"lightness":-100},{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"hue":"#bbbbbb"},{"saturation":-100},{"lightness":26},{"visibility":"on"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"hue":"#dddddd"},{"saturation":-100},{"lightness":-3},{"visibility":"on"}]}]
+
+      	var styledMap = new google.maps.StyledMapType(styles,
+    		{name: "Styled Map"});
+        var mapCanvas = document.getElementById('map-canvas');
+
+		var marker = new google.maps.Marker({
+		    position: new google.maps.LatLng(40.714352, -74.005973),
+		    map: map,
+		    title: ''
+		  });
+
+        var mapOptions = {
+			center: new google.maps.LatLng(27, 0),
+			zoom: 2,
+          	panControl: false,
+    		zoomControl: true,
+    		scaleControl: false,
+    		streetViewControl: false,
+    		overviewMapControl: false,
+    		mapTypeControl: false,
+          	mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(mapCanvas, mapOptions)
+        map.mapTypes.set('map_style', styledMap);
+  		map.setMapTypeId('map_style');
+
+  		  // Construct the circle for each value in citymap.
+		  // Note: We scale the area of the circle based on the population.
+		  for (var city in citymap) {
+		    var populationOptions = {
+		      strokeColor: '#4ed895',
+		      strokeOpacity: 0.8,
+		      strokeWeight: .1,
+		      fillColor: '#4ed895',
+		      fillOpacity: 0.40,
+		      map: map,
+		      center: citymap[city].center,
+		      radius: Math.sqrt(citymap[city].population) * 200
+		    };
+		    // Add the circle for this city to the map.
+		    cityCircle = new google.maps.Circle(populationOptions);
+		  }
+
+		google.maps.event.addListener(marker, 'click', function() {
+	    console.log('click!');
+	  	});
+
+
+      }
+		
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="draw.js" ></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<body>
+</br>
+</br>
+</br>
+
+ <div id="map-canvas" align="center"></div>
+
+</br>
+</br>
+
+<div id="box" align="center">
+  <input type="text" id="input" onkeydown="search(this)" placeholder='How much per day in...'/></br></br>
+  <div id="chart"></div>
+</div>
+</br>
+
+
+</body>
+</html>
