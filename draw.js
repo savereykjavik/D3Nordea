@@ -1,7 +1,10 @@
 //checks if the user pressed "enter", calls function citysearch
 function search(ele) {
     if(event.keyCode == 13) {
-      citysearch();
+
+      //if a transaction matches the input city, store that transaction in cityobj
+      var city = document.getElementById("input").value;
+      citysearch(city);
     }
 };
 
@@ -31,13 +34,12 @@ $(function(){
 var cityobj = {result: []};
 
 //create a function that runs when you request a specific city
-var citysearch = function() {
+var citysearch = function(city) {
   //clear the array cityobj so that any old data is taken away
   while(cityobj.result.length > 0) {
     cityobj.result.pop();
   }
-  //if a transaction matches the input city, store that transaction in cityobj
-  var city = document.getElementById("input").value;
+
   for (var i = alldata.result.length - 1; i >= 0; i--) {
     if (city == alldata.result[i].where) {
       cityobj.result.push(alldata.result[i]);
@@ -46,23 +48,78 @@ var citysearch = function() {
   console.log(cityobj);
   console.log(city + " city transaction data collected successfully")
 
-  drawcity(cityobj);
+  drawcity(cityobj, city);
 };
 
 
 //---------------------------------- D3----------------------------------------//
 
-//create a palette
-// var palette = {
-//     "lightgray": "#819090",
-//     "gray": "#536870",
-//     "darkgray": "#475B62",
-//     "teal": "#008080",
-//     "lightteal": "#00a7a7"
-//   };
 
-var drawcity = function(cityobj) { 
+var palette = ["#4b0840", "#54b2a7","#a2cd5a","#ff7373","#e3e3e3","#1fa700"];
+var catlist = ["Culture","Food","Housing","Nightlife","Sports", "Transportation"];
 
+
+var drawcity = function(cityobj, city) { 
+
+  var r = 100;
+
+  cityobj.result.sort( function(a, b) {
+    if (a.category == b.category) {
+      return 0;
+    }
+    else if (a.category > b.category) {
+      return 1;
+    }
+    else { return -1; }
+  });
+
+  var categoryposition = {"Culture": 0, "Food": 1, "Housing": 2, "Nightlife": 3, "Sports": 4, "Transportation": 5};
+  var summedup = [0,0,0,0,0,0];
+
+  for (var i = cityobj.result.length - 1; i >= 0; i--) {
+    var c = cityobj.result[i].category;
+    var p = categoryposition[c];
+    summedup[p] += cityobj.result[i].sum;
+  };
+
+  var canvas = d3.select('#chart').append('svg')
+    .attr('width', 800)
+    .attr('height', 500);
+
+  var group = canvas.append('g')
+    .attr('transform', 'translate(300, 300)');
+
+  var arc = d3.svg.arc()
+    .innerRadius(200)
+    .outerRadius(r);
+
+  var pie = d3.layout.pie()
+    .sort(null)
+    .value(function (d) {
+      return d
+    });
+
+  var arcs = group.selectAll('.arc')
+    .data(pie(summedup))
+    .enter()
+    .append('g')
+    .attr('class', 'arc');
+
+  window.pie = pie;
+
+  arcs.append('path')
+    .attr('d', arc)
+    .attr('fill', function(d, i) { return palette[i]} );
+
+  arcs.append('text')
+    .attr('transform', function(d) {return 'translate(' + arc.centroid(d) + ')'; })
+    .attr('texy-anchor', 'middle')
+    .attr('font-size', '1.5em')
+    .text(function(d, i) {return catlist[i] });
+
+var text = d3.select('#text').append('text')
+  .text(city + ' 800 kr / day')
+  .attr('font-size', '5em');
 
 }
 

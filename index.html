@@ -7,28 +7,31 @@
     <script>
 
     var citymap = {};
-
-		citymap['new york'] = {
+		citymap['New York'] = {
 		  center: new google.maps.LatLng(40.714352, -74.005973),
 		  population: 3857799
 		};
-		citymap['berlin'] = {
+		citymap['Amsterdam'] = {
+          center: new google.maps.LatLng(52.375345, 4.894325),
+          population: 3857799
+         };
+		citymap['Berlin'] = {
 		  center: new google.maps.LatLng(52, 13),
 		  population: 3857799
 		};
-		citymap['madrid'] = {
+		citymap['Madrid'] = {
 		  center: new google.maps.LatLng(40, 3),
 		  population: 3857799
 		};
-		citymap['paris'] = {
+		citymap['Paris'] = {
 		  center: new google.maps.LatLng(48, 2),
 		  population: 3857799
 		};
-		citymap['san fransisco'] = {
+		citymap['San Fransisco'] = {
 		  center: new google.maps.LatLng(49.25, -123.1),
 		  population: 3857799
 		};		
-		citymap['hong kong'] = {
+		citymap['Hong Kong'] = {
 		  center: new google.maps.LatLng(22, 114),
 		  population: 3857799
 		};
@@ -58,11 +61,6 @@ var cityCircle;
     		{name: "Styled Map"});
         var mapCanvas = document.getElementById('map-canvas');
 
-		var marker = new google.maps.Marker({
-		    position: new google.maps.LatLng(40.714352, -74.005973),
-		    map: map,
-		    title: ''
-		  });
 
         var mapOptions = {
 			center: new google.maps.LatLng(27, 0),
@@ -79,6 +77,14 @@ var cityCircle;
         map.mapTypes.set('map_style', styledMap);
   		map.setMapTypeId('map_style');
 
+
+  		var clickhandler = function(city) {
+  			return function() {
+  				console.log('click!' + city);
+  				citysearch(city);
+  			}
+	  	}
+
   		  // Construct the circle for each value in citymap.
 		  // Note: We scale the area of the circle based on the population.
 		  for (var city in citymap) {
@@ -94,17 +100,14 @@ var cityCircle;
 		    };
 		    // Add the circle for this city to the map.
 		    cityCircle = new google.maps.Circle(populationOptions);
+
+		    google.maps.event.addListener(cityCircle, 'click', clickhandler(city));
 		  }
 
-		google.maps.event.addListener(marker, 'click', function() {
-	    console.log('click!');
-	  	});
-
-
       }
-		
 
       google.maps.event.addDomListener(window, 'load', initialize);
+      
     </script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -115,19 +118,17 @@ var cityCircle;
 </head>
 
 <body>
-</br>
-</br>
-</br>
 
- <div id="map-canvas" align="center"></div>
+ <div id="map-container">
+ <div id="map-canvas"></div>
+   </br></br>
+ <div id="box">
+ <input type="text" id="input" onkeydown="search(this)" placeholder='How much per day in...'/>
+ </div>
+ </div>
 
-</br>
-</br>
-
-<div id="box" align="center">
-  <input type="text" id="input" onkeydown="search(this)" placeholder='How much per day in...'/></br></br>
-  <div id="chart"></div>
-</div>
+<div id="text"></div>
+<div id="chart"></div>
 </br>
 
 

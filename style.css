@@ -83,6 +83,10 @@ body {
   padding: 15px;
   font-weight: 300;
 }
+#map-container {
+  margin: 20px auto;
+  width: 800px;
+}
 
 #map-canvas {
   width: 100%;
