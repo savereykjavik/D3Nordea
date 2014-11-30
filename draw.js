@@ -19,7 +19,6 @@ $(function(){
 
         console.log(alldata);
         console.log("All transaction data collected successfully")
-        citysearch();
     })
 
     .error(function(){
@@ -38,8 +37,7 @@ var citysearch = function() {
     cityobj.result.pop();
   }
   //if a transaction matches the input city, store that transaction in cityobj
-  //var city = document.getElementById("input").value;
-  var city = "New York";
+  var city = document.getElementById("input").value;
   for (var i = alldata.result.length - 1; i >= 0; i--) {
     if (city == alldata.result[i].where) {
       cityobj.result.push(alldata.result[i]);
