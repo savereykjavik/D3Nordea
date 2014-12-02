@@ -2,66 +2,17 @@ body {
   font: 10px sans-serif;
 }
 
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
 
-.bar {
-  fill: orange;
-}
-
-.solidArc:hover {
-  fill: orangered ;
-}
-
-.solidArc {
-    -moz-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
-}
-
-.x.axis path {
-  display: none;
-}
-
-.aster-score { 
-  line-height: 1;
-  font-weight: bold;
-  font-size: 500%;
-}
-
-.d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-}
-
-/* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
+h1 {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: 700;
+  color: teal;
+  font-size: 2.75em;
+  margin-bottom: 0.6em;
+  margin-top: 1.7em;
   text-align: center;
 }
 
-/* Style northward tooltips differently */
-.d3-tip.n:after {
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
-}
 
 #input {
   width: 600px;
@@ -83,7 +34,13 @@ body {
   padding: 15px;
   font-weight: 300;
 }
+
 #map-container {
+  margin: 20px auto;
+  width: 800px;
+}
+
+#intro {
   margin: 20px auto;
   width: 800px;
 }
@@ -95,5 +52,41 @@ body {
   background-color: #CCC;
 }
 
+#result {
+  margin: 0px auto;
+  width: 800px;
+}
+
+#text {
+  width: 50%;
+  min-width: 200px;
+  margin-left: 0px;
+  text-align: left;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 20pt;
+  border-width: 1px;
+  padding: 15px;
+  font-weight: 300;
+  float:left;
+  color: #00CC99;
+}
+
+#text p {
+  margin-bottom: 100px;
+  margin-top: 34px;
+
+}
+
+#chart {
+  width: 40%;
+  min-width: 200px;
+  text-align: center;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 10pt;
+  border-width: 1px;
+  padding: 5px;
+  font-weight: 300;
+  overflow: hidden;
+}
 
 

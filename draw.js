@@ -4,8 +4,19 @@ function search(ele) {
 
       //if a transaction matches the input city, store that transaction in cityobj
       var city = document.getElementById("input").value;
-      citysearch(city);
+      randomize();
+
     }
+};
+
+var myArray = [660, 400, 1150, 1320, 800, 1200, 900];
+var rand = 0;
+
+var randomize = function(city) {
+ rand = myArray[Math.floor(Math.random() * myArray.length)];
+ citysearch(city);
+ console.log(rand);
+
 };
 
 // create object to store the JSON in
@@ -61,7 +72,7 @@ var catlist = ["Culture","Food","Housing","Nightlife","Sports", "Transportation"
 
 var drawcity = function(cityobj, city) { 
 
-  var r = 100;
+  var r = 60;
 
   cityobj.result.sort( function(a, b) {
     if (a.category == b.category) {
@@ -83,14 +94,14 @@ var drawcity = function(cityobj, city) {
   };
 
   var canvas = d3.select('#chart').append('svg')
-    .attr('width', 800)
-    .attr('height', 500);
+    .attr('width', 300)
+    .attr('height', 130);
 
   var group = canvas.append('g')
-    .attr('transform', 'translate(300, 300)');
+    .attr('transform', 'translate(' + r +', ' + r + ')');
 
   var arc = d3.svg.arc()
-    .innerRadius(200)
+    .innerRadius(10)
     .outerRadius(r);
 
   var pie = d3.layout.pie()
@@ -111,15 +122,36 @@ var drawcity = function(cityobj, city) {
     .attr('d', arc)
     .attr('fill', function(d, i) { return palette[i]} );
 
-  arcs.append('text')
-    .attr('transform', function(d) {return 'translate(' + arc.centroid(d) + ')'; })
-    .attr('texy-anchor', 'middle')
-    .attr('font-size', '1.5em')
-    .text(function(d, i) {return catlist[i] });
+  // arcs.append('text')
+  //   .attr('transform', function(d) {return 'translate(' + arc.centroid(d) + ')'; })
+  //   .attr('texy-anchor', 'left')
+  //   .attr('font-size', '0.9em')
+  //   .text(function(d, i) {return catlist[i] });
 
-var text = d3.select('#text').append('text')
-  .text(city + ' 800 kr / day')
-  .attr('font-size', '5em');
+var text = d3.select('#text').append('p')
+  .text(city + ' - ' + rand + ' kr / day')
+
+
+count = 0;
+
+var legend = group.selectAll(".legend")
+    .data(pie(summedup)).enter()
+    .append("g").attr("class", "legend")
+    .attr("legend-id", function(d) {
+        return count++;
+    })
+    .attr("transform", function(d, i) {
+        return "translate(-40," + (-60 + i * 18) + ")";
+    });
+
+legend.append("rect")
+    .attr("x", 210)
+    .attr("width", 15).attr("height", 15)
+    .style('fill', function(d, i) { return palette[i]} );
+
+legend.append("text").attr("x", 200)
+    .attr("y", 9).attr("dy", ".35em")
+    .style("text-anchor", "end").text(function(d, i) {return catlist[i] });
 
 }
 
